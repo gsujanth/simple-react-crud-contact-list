@@ -23,13 +23,16 @@ class App extends Component {
 					id: "f515b8de-5916-47db-9fa8-75efe4a5ebb2"
 				}
 			],
-			selectedId: "",
+			selectedPerson: {},
 			currentView: "PersonList"
 		};
 	}
 
 	handlePersonClick = e => {
-		console.log(e.target.dataset.id);
+		this.setState({
+			selectedPerson: JSON.parse(e.target.dataset.person),
+			currentView: "PersonEdit"
+		});
 	};
 
 	render() {
