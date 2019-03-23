@@ -35,6 +35,23 @@ class App extends Component {
 		});
 	};
 
+	handlePersonUpdate = currPerson => {
+		let { people } = this.state;
+		people = people.map(person => {
+			if (person.id === currPerson.id) {
+				return currPerson;
+			} else {
+				return person;
+			}
+		});
+		let currentView = "PersonList";
+		this.setState({ people, currentView });
+	};
+
+	handleViewChange = newView => {
+		this.setState({ currentView: newView });
+	};
+
 	render() {
 		const currentView =
 			this.state.currentView === "PersonList" ? (
@@ -43,7 +60,11 @@ class App extends Component {
 					handlePersonClick={this.handlePersonClick}
 				/>
 			) : (
-				<PersonEdit />
+				<PersonEdit
+					person={this.state.selectedPerson}
+					handlePersonUpdate={this.handlePersonUpdate}
+					handleViewChange={this.handleViewChange}
+				/>
 			);
 
 		return (

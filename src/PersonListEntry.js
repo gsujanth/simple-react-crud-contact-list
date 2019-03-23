@@ -5,7 +5,7 @@ const PersonListEntry = props => {
 	const { firstName, lastName } = person;
 	return (
 		<li>
-			{firstName} {lastName}
+			{firstName} {lastName} &nbsp;
 			<button
 				className="person-btn"
 				onClick={handlePersonClick}
