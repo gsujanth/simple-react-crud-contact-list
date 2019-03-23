@@ -1,27 +1,30 @@
 import React, { Component } from "react";
 
 class PersonEdit extends Component {
+	confirmDelete() {
+		return !window.confirm(
+			`Are you sure you want to delete ${this.props.person.firstName} ${
+				this.props.person.lastName
+			}?`
+		);
+	}
+
 	handleSubmit = e => {
 		e.preventDefault();
 		const person = this.props.person;
 		let action;
 		if (e.target.name === "delete") {
-			if (
-				!window.confirm(
-					`Are you sure you want to delete ${this.props.person.firstName} ${
-						this.props.person.firstName
-					}?`
-				)
-			) {
+			if (this.confirmDelete()) {
 				return;
 			}
 			action = "delete";
 		} else {
+			//update
 			person.firstName = this.firstName.value;
 			person.lastName = this.lastName.value;
 			action = "update";
 		}
-		this.props.handlePersonUpdate(person, action);
+		this.props.handlePersonAction(person, action);
 	};
 
 	render() {
@@ -29,10 +32,10 @@ class PersonEdit extends Component {
 		return (
 			<div>
 				<section>
-					<h3>Selected Person:</h3>
-					<h5>
+					<h5>Selected Person:</h5>
+					<h3>
 						{firstName}, {lastName}
-					</h5>
+					</h3>
 				</section>
 				<form onSubmit={this.handleSubmit}>
 					<div className="input-wrapper">
@@ -66,6 +69,7 @@ class PersonEdit extends Component {
 							Delete
 						</button>
 						<button
+							type="button"
 							onClick={() => this.props.handleViewChange("PersonList")}
 							value="Cancel"
 						>

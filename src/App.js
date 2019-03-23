@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import PersonList from "./PersonList";
 import "./styles/App.css";
 import PersonEdit from "./PersonEdit";
-
-const uuid = require("uuid4");
-// id = uuid();
-// This will create a unique id for new persons
+import PersonAdd from "./PersonAdd";
 
 class App extends Component {
 	constructor(props) {
@@ -35,19 +32,21 @@ class App extends Component {
 		});
 	};
 
-	handlePersonUpdate = (currPerson, action) => {
+	handlePersonAction = (currPerson, action) => {
 		let { people } = this.state;
 		let currentView = "PersonList";
-		if (action === "delete") {
-			people = people.filter(person => person.id !== currPerson.id);
-		} else if (action === "update") {
-			people = people.map(person => {
-				if (person.id === currPerson.id) {
-					return currPerson;
-				} else {
-					return person;
-				}
-			});
+		switch (action) {
+			case "update":
+				people = people.map(person =>
+					person.id === currPerson.id ? currPerson : person
+				);
+				break;
+			case "delete":
+				people = people.filter(person => person.id !== currPerson.id);
+				break;
+			default:
+				//add
+				people.push(currPerson);
 		}
 		this.setState({ people, currentView });
 	};
@@ -57,19 +56,35 @@ class App extends Component {
 	};
 
 	render() {
-		const currentView =
-			this.state.currentView === "PersonList" ? (
-				<PersonList
-					people={this.state.people}
-					handlePersonClick={this.handlePersonClick}
-				/>
-			) : (
-				<PersonEdit
-					person={this.state.selectedPerson}
-					handlePersonUpdate={this.handlePersonUpdate}
-					handleViewChange={this.handleViewChange}
-				/>
-			);
+		let currentView;
+		switch (this.state.currentView) {
+			case "PersonEdit":
+				currentView = (
+					<PersonEdit
+						person={this.state.selectedPerson}
+						handlePersonAction={this.handlePersonAction}
+						handleViewChange={this.handleViewChange}
+					/>
+				);
+				break;
+			case "PersonAdd":
+				currentView = (
+					<PersonAdd
+						handlePersonAction={this.handlePersonAction}
+						handleViewChange={this.handleViewChange}
+					/>
+				);
+				break;
+			default:
+				currentView = (
+					<PersonList
+						people={this.state.people}
+						handlePersonClick={this.handlePersonClick}
+						handleViewChange={this.handleViewChange}
+					/>
+				);
+				break;
+		}
 
 		return (
 			<div className="Main">
