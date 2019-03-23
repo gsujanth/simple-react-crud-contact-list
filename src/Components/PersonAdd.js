@@ -16,6 +16,7 @@ class PersonAdd extends Component {
 	render() {
 		return (
 			<div>
+				<h3>Add a new contact: &nbsp;</h3>
 				<form onSubmit={this.handleSubmit}>
 					<div className="input-wrapper">
 						<label htmlFor="firstName">First Name:&nbsp;</label>
