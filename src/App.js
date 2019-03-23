@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import PersonList from "./PersonList";
+import PersonList from "./Components/PersonList";
 import "./styles/App.css";
-import PersonEdit from "./PersonEdit";
-import PersonAdd from "./PersonAdd";
+import PersonEdit from "./Components/PersonEdit";
+import PersonAdd from "./Components/PersonAdd";
 
 class App extends Component {
 	constructor(props) {
