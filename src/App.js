@@ -35,16 +35,20 @@ class App extends Component {
 		});
 	};
 
-	handlePersonUpdate = currPerson => {
+	handlePersonUpdate = (currPerson, action) => {
 		let { people } = this.state;
-		people = people.map(person => {
-			if (person.id === currPerson.id) {
-				return currPerson;
-			} else {
-				return person;
-			}
-		});
 		let currentView = "PersonList";
+		if (action === "delete") {
+			people = people.filter(person => person.id !== currPerson.id);
+		} else if (action === "update") {
+			people = people.map(person => {
+				if (person.id === currPerson.id) {
+					return currPerson;
+				} else {
+					return person;
+				}
+			});
+		}
 		this.setState({ people, currentView });
 	};
 

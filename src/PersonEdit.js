@@ -4,9 +4,24 @@ class PersonEdit extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		const person = this.props.person;
-		person.firstName = this.firstName.value;
-		person.lastName = this.lastName.value;
-		this.props.handlePersonUpdate(person);
+		let action;
+		if (e.target.name === "delete") {
+			if (
+				!window.confirm(
+					`Are you sure you want to delete ${this.props.person.firstName} ${
+						this.props.person.firstName
+					}?`
+				)
+			) {
+				return;
+			}
+			action = "delete";
+		} else {
+			person.firstName = this.firstName.value;
+			person.lastName = this.lastName.value;
+			action = "update";
+		}
+		this.props.handlePersonUpdate(person, action);
 	};
 
 	render() {
@@ -46,6 +61,9 @@ class PersonEdit extends Component {
 						</button>
 						<button type="reset" value="Reset">
 							Reset
+						</button>
+						<button name="delete" onClick={this.handleSubmit}>
+							Delete
 						</button>
 						<button
 							onClick={() => this.props.handleViewChange("PersonList")}
